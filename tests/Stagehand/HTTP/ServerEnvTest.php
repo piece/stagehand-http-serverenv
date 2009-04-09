@@ -88,59 +88,32 @@ class Stagehand_HTTP_ServerEnvTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $scriptName
+     * @param array  $variables
      * @test
+     * @dataProvider provideDataForScriptName
      */
-    public function getTheScriptNameFromTheRequestUri()
+    public function getTheScriptName($scriptName, $variables)
     {
-        $_SERVER['REQUEST_URI'] = '/path/to/foo.php';
+        foreach ($variables as $key => $value) {
+            $_SERVER[$key] = $value;
+        }
 
-        $this->assertEquals('/path/to/foo.php',
+        $this->assertEquals($scriptName,
                             Stagehand_HTTP_ServerEnv::getScriptName()
                             );
     }
 
-    /**
-     * @test
-     */
-    public function getTheScriptNameFromTheScriptName()
+    public function provideDataForScriptName()
     {
-        $_SERVER['SCRIPT_NAME'] = '/path/to/foo.php';
-
-        $this->assertEquals('/path/to/foo.php',
-                            Stagehand_HTTP_ServerEnv::getScriptName()
-                            );
-    }
-
-    /**
-     * @test
-     */
-    public function removeQueryVariablesFromRequestUri()
-    {
-        $_SERVER['REQUEST_URI'] = '/foo.php?bar=baz';
-
-        $this->assertEquals('/foo.php', Stagehand_HTTP_ServerEnv::getScriptName());
-    }
-
-    /**
-     * @test
-     */
-    public function removePathInfoFromRequestUri()
-    {
-        $_SERVER['REQUEST_URI'] = '/foo.php/bar/baz';
-        $_SERVER['PATH_INFO'] = '/bar/baz';
-
-        $this->assertEquals('/foo.php', Stagehand_HTTP_ServerEnv::getScriptName());
-    }
-
-    /**
-     * @test
-     */
-    public function removeQueryVariablesAndPathInfoFromRequestUri()
-    {
-        $_SERVER['REQUEST_URI'] = '/foo.php/bar/baz?bar=baz';
-        $_SERVER['PATH_INFO'] = '/bar/baz';
-
-        $this->assertEquals('/foo.php', Stagehand_HTTP_ServerEnv::getScriptName());
+        return array(array('/path/to/foo.php', array('REQUEST_URI' => '/path/to/foo.php')),
+                     array('/path/to/foo.php', array('SCRIPT_NAME' => '/path/to/foo.php')),
+                     array('/foo.php', array('REQUEST_URI' => '/foo.php?bar=baz')),
+                     array('/foo.php', array('REQUEST_URI' => '/foo.php/bar/baz',
+                                             'PATH_INFO' => '/bar/baz')),
+                     array('/foo.php', array('REQUEST_URI' => '/foo.php/bar/baz?bar=baz',
+                                             'PATH_INFO' => '/bar/baz'))
+                     );
     }
 
     /**#@-*/
