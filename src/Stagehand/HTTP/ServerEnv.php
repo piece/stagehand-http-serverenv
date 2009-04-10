@@ -108,24 +108,14 @@ class Stagehand_HTTP_ServerEnv
     // {{{ getScriptName()
 
     /**
-     * Gets the script name from the REQUEST_URI or SCRIPT_NAME variable.
+     * Gets the script name from the SCRIPT_NAME variable. The value of the PATH_INFO
+     * variable is removed from it.
      *
      * @return string
      */
     public static function getScriptName()
     {
-        if (array_key_exists('REQUEST_URI', $_SERVER)) {
-            $requestURI = str_replace('//', '/', $_SERVER['REQUEST_URI']);
-
-            $positionOfQuestion = strpos($requestURI, '?');
-            if ($positionOfQuestion) {
-                $scriptName = substr($requestURI, 0, $positionOfQuestion);
-            } else {
-                $scriptName = $requestURI;
-            }
-        } elseif (array_key_exists('SCRIPT_NAME', $_SERVER)) {
-            $scriptName = str_replace('//', '/', $_SERVER['SCRIPT_NAME']);
-        }
+        $scriptName = str_replace('//', '/', $_SERVER['SCRIPT_NAME']);
 
         $pathInfo = self::getPathInfo();
         if (is_null($pathInfo)) {

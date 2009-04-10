@@ -88,32 +88,14 @@ class Stagehand_HTTP_ServerEnvTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $scriptName
-     * @param array  $variables
      * @test
-     * @dataProvider provideDataForScriptName
      */
-    public function getTheScriptName($scriptName, $variables)
+    public function removePathInfoFromTheScriptName()
     {
-        foreach ($variables as $key => $value) {
-            $_SERVER[$key] = $value;
-        }
+        $_SERVER['SCRIPT_NAME'] = '/foo.php/bar/baz';
+        $_SERVER['PATH_INFO'] = '/bar/baz';
 
-        $this->assertEquals($scriptName,
-                            Stagehand_HTTP_ServerEnv::getScriptName()
-                            );
-    }
-
-    public function provideDataForScriptName()
-    {
-        return array(array('/path/to/foo.php', array('REQUEST_URI' => '/path/to/foo.php')),
-                     array('/path/to/foo.php', array('SCRIPT_NAME' => '/path/to/foo.php')),
-                     array('/foo.php', array('REQUEST_URI' => '/foo.php?bar=baz')),
-                     array('/foo.php', array('REQUEST_URI' => '/foo.php/bar/baz',
-                                             'PATH_INFO' => '/bar/baz')),
-                     array('/foo.php', array('REQUEST_URI' => '/foo.php/bar/baz?bar=baz',
-                                             'PATH_INFO' => '/bar/baz'))
-                     );
+        $this->assertEquals('/foo.php', Stagehand_HTTP_ServerEnv::getScriptName());
     }
 
     /**#@-*/
