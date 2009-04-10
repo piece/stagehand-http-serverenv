@@ -131,6 +131,44 @@ class Stagehand_HTTP_ServerEnv
     }
 
     // }}}
+    // {{{ getRequestURI()
+
+    /**
+     * Gets the request uri.
+     *
+     * @return string
+     */
+    public static function getRequestURI()
+    {
+        if (!array_key_exists('QUERY_STRING', $_SERVER)
+            || !strlen($_SERVER['QUERY_STRING'])
+            ) {
+            $query = '';
+        } else {
+            $query = "?{$_SERVER['QUERY_STRING']}";
+        }
+
+        $pathInfo = Stagehand_HTTP_ServerEnv::getPathInfo();
+        if (!is_null($pathInfo)) {
+            $pathInfo = str_replace('%2F', '/', rawurlencode($pathInfo));
+        }
+
+        if (Stagehand_HTTP_ServerEnv::isSecure()) {
+            $scheme = 'https';
+        } else {
+            $scheme = 'http';
+        }
+
+        if (Stagehand_HTTP_ServerEnv::isRunningOnStandardPort()) {
+            $port = '';
+        } else {
+            $port = ":{$_SERVER['SERVER_PORT']}";
+        }
+
+        return "$scheme://{$_SERVER['SERVER_NAME']}$port" . self::getScriptName() . "$pathInfo$query";
+    }
+
+    // }}}
     // {{{ usingProxy()
 
     /**
