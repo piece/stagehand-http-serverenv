@@ -141,7 +141,12 @@ class Stagehand_HTTP_ServerEnv
     // {{{ getRelativeURI()
 
     /**
-     * Gets the relative uri requested by the client.
+     * Gets the relative uri requested by the client. If the system has REQUEST_URI,
+     * it has precedence. If not, the relative uri will be built usgin SCRIPT_NAME,
+     * PATH_INFO, and QUERY_STRING.
+     *
+     * Note when using mod_rewrite in per-directory context on Apache, SCRIPT_NAME
+     * does not indicate the original URI.
      *
      * @return string
      */
