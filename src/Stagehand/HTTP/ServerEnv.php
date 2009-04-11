@@ -157,9 +157,9 @@ class Stagehand_HTTP_ServerEnv
         }
 
         if (strlen(@$_SERVER['QUERY_STRING'])) {
-            $query = "?{$_SERVER['QUERY_STRING']}";
+            $queryString = "?{$_SERVER['QUERY_STRING']}";
         } else {
-            $query = '';
+            $queryString = '';
         }
 
         $pathInfo = Stagehand_HTTP_ServerEnv::getPathInfo();
@@ -167,7 +167,7 @@ class Stagehand_HTTP_ServerEnv
             $pathInfo = str_replace('%2F', '/', rawurlencode($pathInfo));
         }
 
-        return str_replace('//', '/', $_SERVER['SCRIPT_NAME']) . "$pathInfo$query";
+        return str_replace('//', '/', $_SERVER['SCRIPT_NAME']) . "$pathInfo$queryString";
     }
 
     // }}}
