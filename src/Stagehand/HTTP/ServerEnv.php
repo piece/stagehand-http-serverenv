@@ -156,12 +156,10 @@ class Stagehand_HTTP_ServerEnv
             return str_replace('//', '/', $_SERVER['REQUEST_URI']);
         }
 
-        if (!array_key_exists('QUERY_STRING', $_SERVER)
-            || !strlen($_SERVER['QUERY_STRING'])
-            ) {
-            $query = '';
-        } else {
+        if (strlen(@$_SERVER['QUERY_STRING'])) {
             $query = "?{$_SERVER['QUERY_STRING']}";
+        } else {
+            $query = '';
         }
 
         $pathInfo = Stagehand_HTTP_ServerEnv::getPathInfo();
