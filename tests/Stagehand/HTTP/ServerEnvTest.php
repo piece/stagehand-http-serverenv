@@ -88,14 +88,79 @@ class Stagehand_HTTP_ServerEnvTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $scriptName
+     * @param array  $variables
      * @test
+     * @dataProvider provideDataForScriptName
      */
-    public function removePathInfoFromTheScriptName()
+    public function getTheScriptName($scriptName, array $variables)
     {
-        $_SERVER['SCRIPT_NAME'] = '/foo.php/bar/baz';
-        $_SERVER['PATH_INFO'] = '/bar/baz';
+        foreach ($variables as $key => $value) {
+            $_SERVER[$key] = $value;
+        }
 
-        $this->assertEquals('/foo.php', Stagehand_HTTP_ServerEnv::getScriptName());
+        $this->assertEquals($scriptName,
+                            Stagehand_HTTP_ServerEnv::getScriptName()
+                            );
+    }
+
+    public function provideDataForScriptName()
+    {
+        return array(
+                     array('/path/to/foo.php', array('REQUEST_URI' => '/path/to/foo.php')),
+                     array('/path/to/foo.php', array('SCRIPT_NAME' => '/path/to/foo.php')),
+                     array('/foo.php', array('REQUEST_URI' => '/foo.php?bar=baz',
+                                             'QUERY_STRING' => 'bar=baz')),
+                     array('/foo.php', array('REQUEST_URI' => '/foo.php/bar/baz',
+                                             'PATH_INFO' => '/bar/baz')),
+                     array('/foo.php', array('SCRIPT_NAME' => '/foo.php',
+                                             'PATH_INFO' => '/bar/baz')),
+                     array('/foo.php', array('SCRIPT_NAME' => '/foo.php',
+                                             'PATH_INFO' => '/bar/baz',
+                                             'QUERY_STRING' => 'bar=baz')),
+                     array('/admin/foo.php', array('SCRIPT_NAME' => '/admin/foo.php',
+                                                   'PATH_INFO' => "/\xe5\xa7\x93/\xe4\xb9\x85\xe4\xbf\x9d",
+                                                   'QUERY_STRING' => '%E5%90%8D=%E6%95%A6%E5%95%93')),
+                     array('/foo.php/bar/baz', array('REQUEST_URI' => '/foo.php/bar/baz')),
+                     array('/foo.php', array('REQUEST_URI' => '/foo.php/bar/baz?bar=baz',
+                                             'PATH_INFO' => '/bar/baz',
+                                             'QUERY_STRING' => 'bar=baz'))
+                     );
+    }
+
+    /**
+     * @param string $absoluteURI
+     * @param array  $variables
+     * @test
+     * @dataProvider provideDataForAbsoluteURI
+     */
+    public function getTheAbsoluteUri($absoluteURI, array $variables)
+    {
+        foreach ($variables as $key => $value) {
+            $_SERVER[$key] = $value;
+        }
+
+        $this->assertEquals($absoluteURI,
+                            Stagehand_HTTP_ServerEnv::getAbsoluteURI()
+                            );
+    }
+
+    public function provideDataForAbsoluteURI()
+    {
+        return array(
+                     array('http://www.example.com/admin/foo.php/%E5%A7%93/%E4%B9%85%E4%BF%9D?%E5%90%8D=%E6%95%A6%E5%95%93',
+                           array('SERVER_NAME' => 'www.example.com',
+                                 'SERVER_PORT' => '80',
+                                 'SCRIPT_NAME' => '/admin/foo.php',
+                                 'PATH_INFO' => "/\xe5\xa7\x93/\xe4\xb9\x85\xe4\xbf\x9d",
+                                 'QUERY_STRING' => '%E5%90%8D=%E6%95%A6%E5%95%93')),
+                     array('http://www.example.com/admin/foo.php/%E5%A7%93/%E4%B9%85%E4%BF%9D?%E5%90%8D=%E6%95%A6%E5%95%93',
+                           array('SERVER_NAME' => 'www.example.com',
+                                 'SERVER_PORT' => '80',
+                                 'REQUEST_URI' => '/admin/foo.php/%E5%A7%93/%E4%B9%85%E4%BF%9D?%E5%90%8D=%E6%95%A6%E5%95%93',
+                                 'PATH_INFO' => "/\xe5\xa7\x93/\xe4\xb9\x85\xe4\xbf\x9d",
+                                 'QUERY_STRING' => '%E5%90%8D=%E6%95%A6%E5%95%93'))
+                     );
     }
 
     /**#@-*/

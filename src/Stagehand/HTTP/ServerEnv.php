@@ -108,21 +108,28 @@ class Stagehand_HTTP_ServerEnv
     // {{{ getScriptName()
 
     /**
-     * Gets the script name from the SCRIPT_NAME variable. The value of the PATH_INFO
-     * variable is removed from it.
+     * Gets the script name without QUERY_STRING and PATH_INFO.
      *
      * @return string
      */
     public static function getScriptName()
     {
-        $scriptName = str_replace('//', '/', $_SERVER['SCRIPT_NAME']);
+        $relativeURI = self::getRelativeURI();
+
+        $positionOfQuestion = strpos($relativeURI, '?');
+        if ($positionOfQuestion) {
+            $scriptName = substr($relativeURI, 0, $positionOfQuestion);
+        } else {
+            $scriptName = $relativeURI;
+        }
 
         $pathInfo = self::getPathInfo();
         if (is_null($pathInfo)) {
             return $scriptName;
         }
 
-        $positionOfPathInfo = strrpos($scriptName, $pathInfo);
+        $positionOfPathInfo =
+            strrpos($scriptName, str_replace('%2F', '/', rawurlencode($pathInfo)));
         if ($positionOfPathInfo) {
             return substr($scriptName, 0, $positionOfPathInfo);
         }
@@ -131,15 +138,19 @@ class Stagehand_HTTP_ServerEnv
     }
 
     // }}}
-    // {{{ getRequestURI()
+    // {{{ getRelativeURI()
 
     /**
-     * Gets the request uri.
+     * Gets the relative uri requested by the client.
      *
      * @return string
      */
-    public static function getRequestURI()
+    public static function getRelativeURI()
     {
+        if (array_key_exists('REQUEST_URI', $_SERVER)) {
+            return str_replace('//', '/', $_SERVER['REQUEST_URI']);
+        }
+
         if (!array_key_exists('QUERY_STRING', $_SERVER)
             || !strlen($_SERVER['QUERY_STRING'])
             ) {
@@ -153,6 +164,19 @@ class Stagehand_HTTP_ServerEnv
             $pathInfo = str_replace('%2F', '/', rawurlencode($pathInfo));
         }
 
+        return str_replace('//', '/', $_SERVER['SCRIPT_NAME']) . "$pathInfo$query";
+    }
+
+    // }}}
+    // {{{ getAbsoluteURI()
+
+    /**
+     * Gets the absolute uri requested by the client.
+     *
+     * @return string
+     */
+    public static function getAbsoluteURI()
+    {
         if (Stagehand_HTTP_ServerEnv::isSecure()) {
             $scheme = 'https';
         } else {
@@ -165,7 +189,7 @@ class Stagehand_HTTP_ServerEnv
             $port = ":{$_SERVER['SERVER_PORT']}";
         }
 
-        return "$scheme://{$_SERVER['SERVER_NAME']}$port" . self::getScriptName() . "$pathInfo$query";
+        return "$scheme://{$_SERVER['SERVER_NAME']}$port" . self::getRelativeURI();
     }
 
     // }}}
