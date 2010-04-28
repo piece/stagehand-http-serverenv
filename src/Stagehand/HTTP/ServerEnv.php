@@ -211,6 +211,28 @@ class Stagehand_HTTP_ServerEnv
     {
         return array_key_exists('HTTPS', $_SERVER) && $_SERVER['HTTPS'] == 'on';
     }
+
+    /**
+     * Gets the base URI requested by a client.
+     *
+     * @return string
+     */
+    public static function getBaseURI()
+    {
+        if (Stagehand_HTTP_ServerEnv::isSecure()) {
+            $scheme = 'https';
+        } else {
+            $scheme = 'http';
+        }
+
+        if (Stagehand_HTTP_ServerEnv::isRunningOnStandardPort()) {
+            $port = '';
+        } else {
+            $port = ":{$_SERVER['SERVER_PORT']}";
+        }
+
+        return $scheme . '://' . $_SERVER['SERVER_NAME'] . $port;
+    }
 }
 
 /*

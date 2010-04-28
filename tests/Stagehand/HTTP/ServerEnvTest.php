@@ -135,6 +135,42 @@ class Stagehand_HTTP_ServerEnvTest extends PHPUnit_Framework_TestCase
                                  'QUERY_STRING' => '%E5%90%8D=%E6%95%A6%E5%95%93'))
                      );
     }
+
+    /**
+     * @test
+     * @dataProvider provideDataForBaseURI
+     * @param array $variables
+     */
+    public function getsTheBaseUri(array $variables)
+    {
+        foreach ($variables as $key => $value) {
+            $_SERVER[$key] = $value;
+        }
+
+        $this->assertEquals(
+            'http://www.example.com', Stagehand_HTTP_ServerEnv::getBaseURI()
+        );
+    }
+
+    public function provideDataForBaseURI()
+    {
+        return array(
+                   array(
+                       array(
+                           'SERVER_NAME' => 'www.example.com',
+                           'SERVER_PORT' => '80',
+                           'SCRIPT_NAME' => '/admin/foo.php'
+                       )
+                   ),
+                   array(
+                       array(
+                           'SERVER_NAME' => 'www.example.com',
+                           'SERVER_PORT' => '80',
+                           'REQUEST_URI' => '/admin/foo.php'
+                       )
+                   )
+               );
+    }
 }
 
 /*
