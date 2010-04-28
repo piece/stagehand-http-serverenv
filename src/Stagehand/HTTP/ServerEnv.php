@@ -47,14 +47,16 @@
  */
 class Stagehand_HTTP_ServerEnv
 {
-    private static $proxyMeasures = array('HTTP_X_FORWARDED_FOR',
-                                           'HTTP_X_FORWARDED',
-                                           'HTTP_FORWARDED_FOR',
-                                           'HTTP_FORWARDED',
-                                           'HTTP_VIA',
-                                           'HTTP_X_COMING_FROM',
-                                           'HTTP_COMING_FROM'
-                                           );
+    private static $proxyMeasures =
+        array(
+            'HTTP_X_FORWARDED_FOR',
+            'HTTP_X_FORWARDED',
+            'HTTP_FORWARDED_FOR',
+            'HTTP_FORWARDED',
+            'HTTP_VIA',
+            'HTTP_X_COMING_FROM',
+            'HTTP_COMING_FROM'
+        );
 
    /**
      * Gets PATH_INFO string.
