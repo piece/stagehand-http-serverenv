@@ -168,7 +168,6 @@ class Stagehand_HTTP_ServerEnv
      * Gets the IP address(es) of a client making the request.
      *
      * @return string
-     * @since Method available since Release 2.0.0dev1
      */
     public static function getRemoteAddr()
     {
