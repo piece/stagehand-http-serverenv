@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,20 +29,30 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_HTTP_ServerEnv
- * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 1.0.0
  */
 
 error_reporting(E_ALL | E_STRICT);
+if (defined('E_DEPRECATED')) {
+    error_reporting(error_reporting() & ~E_DEPRECATED);
+}
 
-set_include_path(realpath(dirname(__FILE__) . '/../src') . PATH_SEPARATOR .
-                 get_include_path()
-                 );
+set_include_path(
+    realpath(dirname(__FILE__) . '/../src') . PATH_SEPARATOR .
+    get_include_path()
+);
 
 require_once 'PHPUnit/Framework.php';
-require_once 'Stagehand/Autoload/PEAR.php';
+require_once 'Stagehand/Autoload.php';
+
+$loader = Stagehand_Autoload::legacyLoader();
+$loader->addNamespace('Stagehand');
+Stagehand_Autoload::register($loader);
+
+Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
 
 /*
  * Local Variables:
