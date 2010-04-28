@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,50 +29,23 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_HTTP_ServerEnv
- * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 1.0.0
  */
 
-// {{{ Stagehand_HTTP_ServerEnvTest
-
 /**
  * Some tests for Stagehand_HTTP_ServerEnv.
  *
  * @package    Stagehand_HTTP_ServerEnv
- * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 1.0.0
  */
 class Stagehand_HTTP_ServerEnvTest extends PHPUnit_Framework_TestCase
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     /**
      * @test
      */
@@ -162,25 +135,7 @@ class Stagehand_HTTP_ServerEnvTest extends PHPUnit_Framework_TestCase
                                  'QUERY_STRING' => '%E5%90%8D=%E6%95%A6%E5%95%93'))
                      );
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:
