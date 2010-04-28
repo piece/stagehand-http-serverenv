@@ -141,19 +141,7 @@ class Stagehand_HTTP_ServerEnv
      */
     public static function getAbsoluteURI()
     {
-        if (Stagehand_HTTP_ServerEnv::isSecure()) {
-            $scheme = 'https';
-        } else {
-            $scheme = 'http';
-        }
-
-        if (Stagehand_HTTP_ServerEnv::isRunningOnStandardPort()) {
-            $port = '';
-        } else {
-            $port = ":{$_SERVER['SERVER_PORT']}";
-        }
-
-        return "$scheme://{$_SERVER['SERVER_NAME']}$port" . self::getRelativeURI();
+        return self::getBaseURI() . self::getRelativeURI();
     }
 
     /**
