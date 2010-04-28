@@ -47,7 +47,7 @@
  */
 class Stagehand_HTTP_ServerEnv
 {
-    private static $_proxyMeasures = array('HTTP_X_FORWARDED_FOR',
+    private static $proxyMeasures = array('HTTP_X_FORWARDED_FOR',
                                            'HTTP_X_FORWARDED',
                                            'HTTP_FORWARDED_FOR',
                                            'HTTP_FORWARDED',
@@ -151,7 +151,7 @@ class Stagehand_HTTP_ServerEnv
      */
     public static function usingProxy()
     {
-        foreach (self::$_proxyMeasures as $proxyMeasure) {
+        foreach (self::$proxyMeasures as $proxyMeasure) {
             if (array_key_exists($proxyMeasure, $_SERVER)) {
                 return true;
             }
@@ -172,7 +172,7 @@ class Stagehand_HTTP_ServerEnv
             return $_SERVER['REMOTE_ADDR'];
         }
 
-        foreach (self::$_proxyMeasures as $proxyMeasure) {
+        foreach (self::$proxyMeasures as $proxyMeasure) {
             if (array_key_exists($proxyMeasure, $_SERVER)) {
                 return $_SERVER[$proxyMeasure];
             }
