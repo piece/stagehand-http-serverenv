@@ -123,7 +123,7 @@ class Stagehand_HTTP_ServerEnv
         }
 
         if (strlen(@$_SERVER['QUERY_STRING'])) {
-            $queryString = "?{$_SERVER['QUERY_STRING']}";
+            $queryString = '?' . $_SERVER['QUERY_STRING'];
         } else {
             $queryString = '';
         }
@@ -133,7 +133,9 @@ class Stagehand_HTTP_ServerEnv
             $pathInfo = str_replace('%2F', '/', rawurlencode($pathInfo));
         }
 
-        return str_replace('//', '/', $_SERVER['SCRIPT_NAME']) . "$pathInfo$queryString";
+        return str_replace('//', '/', $_SERVER['SCRIPT_NAME']) .
+               $pathInfo .
+               $queryString;
     }
 
     /**
@@ -218,7 +220,7 @@ class Stagehand_HTTP_ServerEnv
         if (Stagehand_HTTP_ServerEnv::isRunningOnStandardPort()) {
             $port = '';
         } else {
-            $port = ":{$_SERVER['SERVER_PORT']}";
+            $port = ':' . $_SERVER['SERVER_PORT'];
         }
 
         return $scheme . '://' . $_SERVER['SERVER_NAME'] . $port;
