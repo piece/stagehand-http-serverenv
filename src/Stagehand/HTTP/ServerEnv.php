@@ -107,8 +107,8 @@ class Stagehand_HTTP_ServerEnv
     }
 
     /**
-     * Gets the relative uri requested by the client. If the system has REQUEST_URI,
-     * it has precedence. If not, the relative uri will be built usgin SCRIPT_NAME,
+     * Gets the relative URI requested by a client. If the system has REQUEST_URI,
+     * it has precedence. If not, the relative URI will be built using SCRIPT_NAME,
      * PATH_INFO, and QUERY_STRING.
      *
      * Note when using mod_rewrite in per-directory context on Apache, SCRIPT_NAME
@@ -139,7 +139,7 @@ class Stagehand_HTTP_ServerEnv
     }
 
     /**
-     * Gets the absolute uri requested by the client.
+     * Gets the absolute URI requested by a client.
      *
      * @return string
      */
@@ -165,7 +165,7 @@ class Stagehand_HTTP_ServerEnv
     }
 
     /**
-     * Gets an IP address (or IP addresses) of the client making the request.
+     * Gets the IP address(es) of a client making the request.
      *
      * @return string
      * @since Method available since Release 2.0.0dev1
