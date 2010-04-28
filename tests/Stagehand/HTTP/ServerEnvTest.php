@@ -49,7 +49,7 @@ class Stagehand_HTTP_ServerEnvTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function getTheIpAddressOfTheClient()
+    public function getsTheIpAddressOfAClient()
     {
         $_SERVER['REMOTE_ADDR'] = '1.2.3.4';
 
@@ -66,7 +66,7 @@ class Stagehand_HTTP_ServerEnvTest extends PHPUnit_Framework_TestCase
      * @test
      * @dataProvider provideDataForScriptName
      */
-    public function getTheScriptName($scriptName, array $variables)
+    public function getsTheScriptName($scriptName, array $variables)
     {
         foreach ($variables as $key => $value) {
             $_SERVER[$key] = $value;
@@ -107,7 +107,7 @@ class Stagehand_HTTP_ServerEnvTest extends PHPUnit_Framework_TestCase
      * @test
      * @dataProvider provideDataForAbsoluteURI
      */
-    public function getTheAbsoluteUri($absoluteURI, array $variables)
+    public function getsTheAbsoluteUri($absoluteURI, array $variables)
     {
         foreach ($variables as $key => $value) {
             $_SERVER[$key] = $value;
