@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,45 +29,24 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_HTTP_ServerEnv
- * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 1.0.0
  */
-
-// {{{ Stagehand_HTTP_ServerEnv
 
 /**
  * A utility which can be used to get some information of the Web server where
  * the application is running on.
  *
  * @package    Stagehand_HTTP_ServerEnv
- * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 1.0.0
  */
 class Stagehand_HTTP_ServerEnv
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
     private static $_proxyMeasures = array('HTTP_X_FORWARDED_FOR',
                                            'HTTP_X_FORWARDED',
                                            'HTTP_FORWARDED_FOR',
@@ -77,16 +56,7 @@ class Stagehand_HTTP_ServerEnv
                                            'HTTP_COMING_FROM'
                                            );
 
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ getPathInfo()
-
-    /**
+   /**
      * Gets PATH_INFO string.
      *
      * @return string
@@ -103,9 +73,6 @@ class Stagehand_HTTP_ServerEnv
             return $_SERVER['ORIG_PATH_INFO'];
         }
     }
-
-    // }}}
-    // {{{ getScriptName()
 
     /**
      * Gets the script name without QUERY_STRING and PATH_INFO.
@@ -137,9 +104,6 @@ class Stagehand_HTTP_ServerEnv
         return $scriptName;
     }
 
-    // }}}
-    // {{{ getRelativeURI()
-
     /**
      * Gets the relative uri requested by the client. If the system has REQUEST_URI,
      * it has precedence. If not, the relative uri will be built usgin SCRIPT_NAME,
@@ -170,9 +134,6 @@ class Stagehand_HTTP_ServerEnv
         return str_replace('//', '/', $_SERVER['SCRIPT_NAME']) . "$pathInfo$queryString";
     }
 
-    // }}}
-    // {{{ getAbsoluteURI()
-
     /**
      * Gets the absolute uri requested by the client.
      *
@@ -195,9 +156,6 @@ class Stagehand_HTTP_ServerEnv
         return "$scheme://{$_SERVER['SERVER_NAME']}$port" . self::getRelativeURI();
     }
 
-    // }}}
-    // {{{ usingProxy()
-
     /**
      * Returns whether the application is accessed via reverse proxies.
      *
@@ -213,9 +171,6 @@ class Stagehand_HTTP_ServerEnv
 
         return false;
     }
-
-    // }}}
-    // {{{ getRemoteAddr()
 
     /**
      * Gets an IP address (or IP addresses) of the client making the request.
@@ -236,9 +191,6 @@ class Stagehand_HTTP_ServerEnv
         }
     }
 
-    // }}}
-    // {{{ isRunningOnStandardPort()
-
     /**
      * Checks whether or not the current process is running on standard port either 80
      * or 443.
@@ -250,9 +202,6 @@ class Stagehand_HTTP_ServerEnv
         return $_SERVER['SERVER_PORT'] == '80' || $_SERVER['SERVER_PORT'] == '443';
     }
 
-    // }}}
-    // {{{ isSecure()
-
     /**
      * Checks whether the current connection is secure or not.
      *
@@ -262,25 +211,7 @@ class Stagehand_HTTP_ServerEnv
     {
         return array_key_exists('HTTPS', $_SERVER) && $_SERVER['HTTPS'] == 'on';
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:
